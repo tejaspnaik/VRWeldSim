@@ -14,7 +14,6 @@ This project is a functional prototype of a VR welding simulator built in Unity.
 2.  Grab the welding tool with your controller.
 3.  Bring the tip of the welder into contact with a weldable surface.
 4.  Pull and hold the trigger to start welding. Move the tool along the surface to create a seam.
-5.  After completing a seam, press the **A Button** (Primary Button) on your controller to finalize the weld and merge the blobs.
 
 ## Setup Instructions
 
