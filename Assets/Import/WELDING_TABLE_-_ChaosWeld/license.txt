@@ -1,0 +1,11 @@
+Model Information:
+* title:	WELDING TABLE - ChaosWeld
+* source:	https://sketchfab.com/3d-models/welding-table-chaosweld-71fef515545c49628c9891c212e0674d
+* author:	ChaosWeld (https://sketchfab.com/chaosweld)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "WELDING TABLE - ChaosWeld" (https://sketchfab.com/3d-models/welding-table-chaosweld-71fef515545c49628c9891c212e0674d) by ChaosWeld (https://sketchfab.com/chaosweld) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
