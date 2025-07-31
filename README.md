@@ -7,7 +7,7 @@ This project is a functional prototype of a VR welding simulator built in Unity.
 * **Dynamic Weld Creation:** Create a 3D weld seam by moving the active welder along a surface. The system supports both flat planes and corner/T-joints.
 * **Visual Effects:** Includes a particle system for sparks, and a "hot-to-cold" material effect where new welds glow and then cool down over time.
 * **Audio Feedback:** A looping sizzle sound plays while the welder is active, enhancing immersion.
-* **Mesh Merging:** After a weld pass is complete, all individual weld blobs can be merged into a single, optimized mesh.
+
 
 ## How to Use
 1.  Launch the simulation in a VR headset or using the Unity Device Simulator.
