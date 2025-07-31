@@ -36,5 +36,5 @@ Install these packages from the Unity **Package Manager** (`Window > Package Man
 * In **Project Settings > XR Plug-in Management**, ensure the **Oculus** provider is enabled under the **Android** tab for Meta Quest compatibility.
 
 ## Credits & Assets
-* 3D models for the environment and welder tool were sourced from **SketchFab**.
+* 3D models for the environment and welder tool were sourced from **SketchFab** and the **Unity Asset Store**.
 * The weld blob asset and initial script inspiration are from **wbigoljr's** Unity Welding Simulator project, which can be found here: [https://github.com/wbigoljr/unity_welding_simulator/tree/main](https://github.com/wbigoljr/unity_welding_simulator/tree/main)
