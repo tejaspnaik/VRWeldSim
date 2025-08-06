@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using System.Collections.Generic;
 
 public class WeldingTool : MonoBehaviour
 {
@@ -9,33 +12,54 @@ public class WeldingTool : MonoBehaviour
     public LayerMask weldableLayer;
     public Transform raycastOrigin;
 
+    [Header("Haptics")]
+    [Range(0, 1)]
+    public float hapticAmplitude = 0.7f;
+    public float hapticDuration = 0.1f;
+
     [Header("Effects")]
     public AudioSource weldingAudioSource;
     public ParticleSystem weldingSparks;
-    public ParticleSystem weldingFlame; // --- NEW --- Added reference for the flame effect
+    public ParticleSystem weldingFlame;
 
     // --- Private Fields ---
-    private bool isWeldingActive = false; // True when trigger is held
-    private bool isTouchingWeldable = false; // True when touching a weldable surface
+    private bool isWeldingActive = false;
+    private bool isTouchingWeldable = false;
     private float nextWeldTime = 0f;
+    private List<GameObject> currentWeldBlobs = new List<GameObject>();
+    private InputSystem_Actions inputActions;
 
-    // Called by the XR Grab Interactable 'Activate' event
+    private void Awake()
+    {
+        inputActions = new InputSystem_Actions();
+    }
+
+    private void OnEnable()
+    {
+        // When the "FinalizeWeld" button is pressed, call our new ClearWeldBlobs function
+        inputActions.Player.FinalizeWeld.performed += ctx => ClearWeldBlobs();
+        inputActions.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Player.FinalizeWeld.performed -= ctx => ClearWeldBlobs();
+        inputActions.Player.Disable();
+    }
+
     public void StartWelding()
     {
         isWeldingActive = true;
     }
 
-    // Called by the 'Deactivate' event
     public void StopWelding()
     {
         isWeldingActive = false;
     }
 
-    // Update is called every frame
     private void Update()
     {
-        // --- NEW: Control Flame ---
-        // The flame is active whenever the trigger is held down, regardless of surface contact.
+        // Control Flame
         if (isWeldingActive && !weldingFlame.isPlaying)
         {
             weldingFlame.Play();
@@ -45,31 +69,21 @@ public class WeldingTool : MonoBehaviour
             weldingFlame.Stop();
         }
 
-        // This variable determines if sparks and audio should play
         bool shouldBeActive = isWeldingActive && isTouchingWeldable;
 
-        // Control Sparks
-        if (shouldBeActive && !weldingSparks.isPlaying)
+        // Control Sparks & Audio
+        if (shouldBeActive)
         {
-            weldingSparks.Play();
+            if (weldingSparks != null && !weldingSparks.isPlaying) weldingSparks.Play();
+            if (weldingAudioSource != null && !weldingAudioSource.isPlaying) weldingAudioSource.Play();
         }
-        else if (!shouldBeActive && weldingSparks.isPlaying)
+        else
         {
-            weldingSparks.Stop();
-        }
-
-        // Control Audio
-        if (shouldBeActive && !weldingAudioSource.isPlaying)
-        {
-            weldingAudioSource.Play();
-        }
-        else if (!shouldBeActive && weldingAudioSource.isPlaying)
-        {
-            weldingAudioSource.Stop();
+            if (weldingSparks != null && weldingSparks.isPlaying) weldingSparks.Stop();
+            if (weldingAudioSource != null && weldingAudioSource.isPlaying) weldingAudioSource.Stop();
         }
     }
 
-    // Sets our flag when we touch a valid surface
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Weldable"))
@@ -78,7 +92,6 @@ public class WeldingTool : MonoBehaviour
         }
     }
 
-    // Clears our flag when we stop touching
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Weldable"))
@@ -87,10 +100,8 @@ public class WeldingTool : MonoBehaviour
         }
     }
 
-    // This logic for creating blobs remains the same
     private void OnTriggerStay(Collider other)
     {
-        // The blob creation is conditional on the trigger being held and contact
         if (isWeldingActive && Time.time >= nextWeldTime && other.CompareTag("Weldable"))
         {
             nextWeldTime = Time.time + 1f / weldRate;
@@ -99,13 +110,39 @@ public class WeldingTool : MonoBehaviour
             {
                 if (hit.collider == other)
                 {
-                    // Calculate the new position by pushing the blob slightly into the surface
                     Vector3 spawnPosition = hit.point - (hit.normal * weldOffset);
-
                     GameObject blob = Instantiate(weldBlobPrefab);
                     blob.transform.SetPositionAndRotation(spawnPosition, Quaternion.FromToRotation(Vector3.up, hit.normal));
+
+                    currentWeldBlobs.Add(blob);
+
+                    if (GetComponent<XRGrabInteractable>().firstInteractorSelecting is UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInputInteractor controllerInteractor)
+                    {
+                        controllerInteractor.SendHapticImpulse(hapticAmplitude, hapticDuration);
+                    }
                 }
             }
         }
+    }
+
+    // --- NEW, SIMPLIFIED RESET FUNCTION ---
+    public void ClearWeldBlobs()
+    {
+        if (currentWeldBlobs.Count == 0)
+        {
+            Debug.Log("No weld blobs to clear.");
+            return;
+        }
+
+        // Loop through all the tracked blobs and destroy them
+        foreach (var blob in currentWeldBlobs)
+        {
+            Destroy(blob);
+        }
+
+        // Clear the list so we can start a new weld seam
+        currentWeldBlobs.Clear();
+
+        Debug.Log("Weld blobs cleared. Ready for a new seam.");
     }
 }

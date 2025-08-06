@@ -180,6 +180,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FinalizeWeld"",
+                    ""type"": ""Button"",
+                    ""id"": ""40fa0090-dd86-426b-9d03-09b51325e796"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -576,6 +585,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Weld"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a1e51ba4-0eb7-4678-9bea-eec4c3f94c3c"",
+                    ""path"": ""<XRController>/primaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FinalizeWeld"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1173,6 +1193,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Weld = m_Player.FindAction("Weld", throwIfNotFound: true);
+        m_Player_FinalizeWeld = m_Player.FindAction("FinalizeWeld", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1276,6 +1297,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Weld;
+    private readonly InputAction m_Player_FinalizeWeld;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1327,6 +1349,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Weld".
         /// </summary>
         public InputAction @Weld => m_Wrapper.m_Player_Weld;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/FinalizeWeld".
+        /// </summary>
+        public InputAction @FinalizeWeld => m_Wrapper.m_Player_FinalizeWeld;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1383,6 +1409,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Weld.started += instance.OnWeld;
             @Weld.performed += instance.OnWeld;
             @Weld.canceled += instance.OnWeld;
+            @FinalizeWeld.started += instance.OnFinalizeWeld;
+            @FinalizeWeld.performed += instance.OnFinalizeWeld;
+            @FinalizeWeld.canceled += instance.OnFinalizeWeld;
         }
 
         /// <summary>
@@ -1424,6 +1453,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Weld.started -= instance.OnWeld;
             @Weld.performed -= instance.OnWeld;
             @Weld.canceled -= instance.OnWeld;
+            @FinalizeWeld.started -= instance.OnFinalizeWeld;
+            @FinalizeWeld.performed -= instance.OnFinalizeWeld;
+            @FinalizeWeld.canceled -= instance.OnFinalizeWeld;
         }
 
         /// <summary>
@@ -1794,6 +1826,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnWeld(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "FinalizeWeld" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFinalizeWeld(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

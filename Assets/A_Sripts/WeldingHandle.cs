@@ -99,10 +99,10 @@ public class WeldingHandle : MonoBehaviour
         {
             //float blobDistance = Vector3.Distance(currentBlob.position, weldHit.point);
             //Debug.Log("blobDistance " + blobDistance + "blobSizeTimer " + blobSizeTimer);
-            
+
             blobSizeTimer += Time.deltaTime * 0.2f; //With filler use 0.5f
 
-            if(weldHit.transform == currentBlob)
+            if (weldHit.transform == currentBlob)
             {
                 if (currentBlob.localScale.magnitude < 0.7f) //Size limit
                 {
@@ -119,7 +119,7 @@ public class WeldingHandle : MonoBehaviour
 
                     StartCoroutine(HoldWeldingRoutine(0.5f));
                 }
-                    
+
             }
             else
             {
@@ -146,7 +146,7 @@ public class WeldingHandle : MonoBehaviour
     Transform previousBlob;
     private void ResetBlobSettings(bool weldStop = false)
     {
-        
+
         if (currentBlob)
         {
             currentBlob.parent = currentPanel;

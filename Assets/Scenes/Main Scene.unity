@@ -416,6 +416,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 787190943}
     - target: {fileID: 7072214967298283121, guid: cc7b0bda7582c5a488c364b65bb98cc8, type: 3}
+      propertyPath: cooledWeldMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 870b6067c6abb424384de902a90b81bc, type: 2}
+    - target: {fileID: 7072214967298283121, guid: cc7b0bda7582c5a488c364b65bb98cc8, type: 3}
       propertyPath: weldingAudioSource
       value: 
       objectReference: {fileID: 1890860047}
@@ -6718,11 +6722,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3803259677954443443, guid: 7b55ecca6886dce44b0f802bba077c24, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.795
       objectReference: {fileID: 0}
     - target: {fileID: 3803259677954443443, guid: 7b55ecca6886dce44b0f802bba077c24, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.0284
       objectReference: {fileID: 0}
     - target: {fileID: 3803259677954443443, guid: 7b55ecca6886dce44b0f802bba077c24, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6781,11 +6785,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f573dfbba1b13b4294911313a735593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalBlobMesh: {fileID: -5872129705350155954, guid: 29d0b975f35ac054997d1f6f180380a0, type: 3}
   flatBlobMesh: {fileID: -5872129705350155954, guid: 29d0b975f35ac054997d1f6f180380a0, type: 3}
   blobCooledMaterial: {fileID: 2100000, guid: 870b6067c6abb424384de902a90b81bc, type: 2}
   blobHotMaterial: {fileID: 2100000, guid: c8a6a693d162075468647f1553161dd4, type: 2}
+  tiltForward: 0
   coolingDelay: 3
   coolingFade: 3
+  cooledWeldColor: {r: 0.5, g: 0.5, b: 0.3, a: 1}
 --- !u!1 &898330818
 GameObject:
   m_ObjectHideFlags: 0
